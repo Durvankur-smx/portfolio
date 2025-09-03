@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Responsive portfolio with Bootstrap, animations, and contact form." />
+  <title>Durvankur Devikar — Portfolio</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/favicon.png" />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+
+  <!-- Animate.css (optional) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <style>
+    :root{
+      --bg-grad-1: #0f172a;
+      --bg-grad-2: #111827;
+      --brand: #6ee7ff;
+      --brand-2: #a78bfa;
+      --glass: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12);
+    }
+    html,body{ height:100%; }
+    body{
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(102,126,234,.25), transparent 60%),
+                  radial-gradient(900px 500px at 120% 10%, rgba(118,75,162,.25), transparent 60%),
+                  linear-gradient(120deg, var(--bg-grad-1), var(--bg-grad-2));
+      background-attachment: fixed;
+      scroll-behavior: smooth;
+    }
+    .glass{ background: var(--glass); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.05); }
+    .navbar-brand i{ color: var(--brand); }
+    .navbar .btn-theme{ border-radius: 999px; }
+    #hero{ position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; }
+    #particles-js{ position:absolute; inset:0; z-index:0; }
+    .hero-card{ position:relative; z-index:1; }
+    .hero-avatar{ width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,.2); box-shadow: 0 0 0 6px rgba(167,139,250,.15); }
+    .glow{ text-shadow: 0 0 24px rgba(174, 230, 255, .6); }
+    .btn-gradient{ background-image: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%); border: 0; color: #0b1020; font-weight: 700; box-shadow: 0 10px 24px rgba(110,231,255,.25); }
+    .btn-outline-gradient{ border: 2px solid rgba(110,231,255,.5); }
+    .social a{ width:42px; height:42px; display:grid; place-items:center; border-radius:50%; border:1px solid var(--glass-border); background: rgba(255,255,255,.04); transition: transform .2s ease, box-shadow .2s ease; }
+    .social a:hover{ transform: translateY(-3px); box-shadow: 0 10px 16px rgba(110,231,255,.15); color: var(--brand); }
+    section.section{ padding: 90px 0; position: relative; }
+    .section-title .badge{ letter-spacing: .12em; }
+    .skill-card i{ font-size: 2rem; }
+    .skill-card:hover{ transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,.25); }
+    .skill-card{ transition: .25s ease; }
+    .filter-chip{ border-radius: 999px; }
+    .project-card{ overflow: hidden; }
+    .project-thumb{ height: 180px; object-fit: cover; }
+    .project-card .badge{ backdrop-filter: blur(6px); }
+    .timeline{ position: relative; }
+    .timeline::before{ content:""; position:absolute; left: var(--bs-gutter-x,1.5rem); top:0; bottom:0; width:3px; background:linear-gradient(var(--brand-2), var(--brand)); border-radius: 2px; opacity:.3; }
+    @media (min-width: 768px){ .timeline::before{ left: 50%; transform: translateX(-50%);} }
+    .t-card{ position: relative; }
+    .t-dot{ position:absolute; top: 1rem; left: -1.25rem; width: 14px; height: 14px; border-radius:50%; background:linear-gradient(135deg,var(--brand),var(--brand-2)); box-shadow: 0 0 0 6px rgba(110,231,255,.15); }
+    @media (min-width:768px){ .t-dot{ left: calc(50% - 7px); } }
+    .contact-wrap{ background: radial-gradient(600px 240px at 110% -10%, rgba(110,231,255,.15), transparent 60%), rgba(255,255,255,.02); border:1px solid var(--glass-border); border-radius: 1.25rem; }
+    footer a{ opacity:.9 } footer a:hover{ opacity:1 }
+    #toTop{ position: fixed; right: 16px; bottom: 16px; z-index: 50; display:none; }
+    .max-w-3xl{ max-width: 980px; } .max-w-2xl{ max-width: 720px; }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg sticky-top glass py-2 mt-2 mx-2 px-3">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="#hero">
+      <i class="fa-solid fa-code me-2"></i> <span>Durvankur</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="#hero">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+      <div class="d-flex gap-2 ms-lg-3">
+        <button id="themeToggle" class="btn btn-outline-light btn-sm btn-theme" title="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+        <a href="#contact" class="btn btn-gradient btn-sm">Hire Me</a>
+        <!-- Resume in navbar for quick access -->
+        <a href="https://drive.google.com/file/d/1F-AA-RJoEOYZ38dOJI3p_5GHEsp97eCq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm">Resume</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="hero" class="container py-5">
+    <div id="particles-js" aria-hidden="true"></div>
+
+    <div class="hero-card glass p-4 p-md-5 text-center max-w-3xl mx-auto">
+      <img src="assets/images/profile.jpg" alt="Durvankur Devikar" class="hero-avatar mb-3">
+      <h1 class="display-5 fw-extrabold glow">Hi, I'm <span class="text-info">Durvankur Devikar</span></h1>
+      <p class="lead mb-1">I am into <span class="fw-semibold" id="typed"></span></p>
+      <p class="text-secondary max-w-2xl mx-auto">Aspiring IT professional focused on Android, cloud, and full‑stack. I love building delightful, performant products that solve real problems.</p>
+      <div class="d-flex justify-content-center gap-2 gap-md-3 my-3 social">
+        <a href="https://www.linkedin.com/in/durvankurdevikar" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href="https://github.com/durvankurdevikar" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://x.com/DruvDevikar" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fa-brands fa-x"></i></a>
+        <a href="mailto:durvankurdevikar@gmail.com" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.instagram.com/durvankur.devikar/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+      <div class="d-flex justify-content-center gap-2 gap-md-3">
+        <a href="#projects" class="btn btn-gradient btn-lg px-4"><i class="fa-solid fa-rocket me-2"></i>Explore Projects</a>
+        <a href="#skills" class="btn btn-outline-gradient btn-lg px-4 text-light"><i class="fa-solid fa-bolt me-2"></i>Skills</a>
+        <!-- Resume button in hero -->
+        <a href="https://drive.google.com/file/d/1F-AA-RJoEOYZ38dOJI3p_5GHEsp97eCq/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-lg px-4"><i class="fa-solid fa-download me-2"></i>Resume</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section container">
+    <div class="text-center section-title mb-5">
+      <span class="badge rounded-pill bg-info-subtle text-info-emphasis">WHAT I DO</span>
+      <h2 class="mt-3 fw-bold">Skills & Abilities</h2>
+      <p class="text-secondary max-w-2xl mx-auto">A mix of product thinking, clean code, and cloud‑native foundations.</p>
+    </div>
+
+    <div class="row g-4 row-cols-1 row-cols-sm-2 row-cols-lg-3">
+      <!-- skill cards unchanged -->
+      <div class="col">
+        <div class="card glass p-4 h-100 skill-card" data-tilt>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h5 class="mb-0">Android (Kotlin/Java)</h5>
+            <i class="fa-brands fa-android"></i>
+          </div>
+          <p class="text-secondary">MVVM, Retrofit, Room, Jetpack, Material 3, Firebase.</p>
+          <div class="progress" role="progressbar" aria-label="Android" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar" style="width:85%">85%</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card glass p-4 h-100 skill-card" data-tilt>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h5 class="mb-0">Frontend</h5>
+            <i class="fa-solid fa-display"></i>
+          </div>
+          <p class="text-secondary">HTML5, CSS3, Bootstrap 5, Tailwind, React basics.</p>
+          <div class="progress"><div class="progress-bar" style="width:80%">80%</div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card glass p-4 h-100 skill-card" data-tilt>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h5 class="mb-0">Backend & APIs</h5>
+            <i class="fa-solid fa-server"></i>
+          </div>
+          <p class="text-secondary">Node/Express, REST, JWT, PostgreSQL, MongoDB.</p>
+          <div class="progress"><div class="progress-bar" style="width:70%">70%</div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card glass p-4 h-100 skill-card" data-tilt>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h5 class="mb-0">Cloud & DevOps</h5>
+            <i class="fa-solid fa-cloud"></i>
+          </div>
+          <p class="text-secondary">AWS basics, Docker, CI/CD, GitHub Actions.</p>
+          <div class="progress"><div class="progress-bar" style="width:60%">60%</div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card glass p-4 h-100 skill-card" data-tilt>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h5 class="mb-0">UI/UX</h5>
+            <i class="fa-solid fa-pen-ruler"></i>
+          </div>
+          <p class="text-secondary">Design systems, Figma, accessibility, micro‑interactions.</p>
+          <div class="progress"><div class="progress-bar" style="width:75%">75%</div></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card glass p-4 h-100 skill-card" data-tilt>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h5 class="mb-0">Problem Solving</h5>
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <p class="text-secondary">Data structures, algorithms, debugging, testing.</p>
+          <div class="progress"><div class="progress-bar" style="width:78%">78%</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section container">
+    <div class="text-center section-title mb-4">
+      <span class="badge rounded-pill bg-primary-subtle text-primary-emphasis">LIVE WORK</span>
+      <h2 class="mt-3 fw-bold">Highlighted Projects</h2>
+      <p class="text-secondary max-w-2xl mx-auto">Filter by category or explore all. Cards are interactive with tilt and quick links.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="d-flex flex-wrap gap-2 justify-content-center mb-4">
+      <button class="btn btn-sm btn-outline-light filter-chip active" data-filter="all">All</button>
+      <button class="btn btn-sm btn-outline-light filter-chip" data-filter="web">Web</button>
+      <button class="btn btn-sm btn-outline-light filter-chip" data-filter="android">Android</button>
+      <button class="btn btn-sm btn-outline-light filter-chip" data-filter="ml">ML</button>
+    </div>
+
+    <div class="row g-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+      <!-- Project Card 1 -->
+      <div class="col project" data-category="web">
+        <div class="card glass h-100 project-card" data-tilt>
+          <img src="assets/images/projects/project-1.jpg" class="project-thumb" alt="Brew & Bliss screenshot">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">Brew & Bliss</h5>
+              <span class="badge text-bg-info">Web</span>
+            </div>
+            <p class="card-text text-secondary">Coffee shop website with filterable menu, offers, and animated UI.</p>
+            <div class="d-flex gap-2">
+              <a href="#" class="btn btn-sm btn-outline-light disabled" aria-disabled="true">Coming Soon</a>
+              <a href="#" class="btn btn-sm btn-gradient disabled" aria-disabled="true">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Project Card 2 -->
+      <div class="col project" data-category="android">
+        <div class="card glass h-100 project-card" data-tilt>
+          <img src="assets/images/projects/project-2.jpg" class="project-thumb" alt="Skill Nexus screenshot">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">Skill Nexus</h5>
+              <span class="badge text-bg-success">Android</span>
+            </div>
+            <p class="card-text text-secondary">Android app with RecyclerView listings, auth, and SQLite/Room storage.</p>
+            <div class="d-flex gap-2">
+              <a href="#" class="btn btn-sm btn-outline-light disabled" aria-disabled="true">Coming Soon</a>
+              <a href="#" class="btn btn-sm btn-gradient disabled" aria-disabled="true">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Project Card 3 -->
+      <div class="col project" data-category="ml">
+        <div class="card glass h-100 project-card" data-tilt>
+          <img src="assets/images/projects/project-3.jpg" class="project-thumb" alt="FrndMe screenshot">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+              <h5 class="card-title mb-0">FrndMe Recommender</h5>
+              <span class="badge text-bg-warning">ML</span>
+            </div>
+            <p class="card-text text-secondary">Friend recommendation using graph features and similarity scores.</p>
+            <div class="d-flex gap-2">
+              <a href="#" class="btn btn-sm btn-outline-light disabled" aria-disabled="true">Coming Soon</a>
+              <a href="#" class="btn btn-sm btn-gradient disabled" aria-disabled="true">Coming Soon</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="section container">
+    <div class="text-center section-title mb-5">
+      <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis">LEARNING JOURNEY</span>
+      <h2 class="mt-3 fw-bold">Education</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-12 col-md-6">
+          <div class="card glass p-4 h-100 t-card">
+            <div class="t-dot" aria-hidden="true"></div>
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <h5 class="mb-0">B.Tech in Information Technology</h5>
+              <span class="badge text-bg-info">2023–2027</span>
+            </div>
+            <p class="mb-1 text-secondary">MIT ADT University</p>
+            <p class="mb-0">Pursuing. Focus on Android, systems, and cloud. Building projects that ship.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="card glass p-4 h-100 t-card">
+            <div class="t-dot" aria-hidden="true"></div>
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <h5 class="mb-0">Higher Secondary Education</h5>
+              <span class="badge text-bg-secondary">2021–2023</span>
+            </div>
+            <p class="mb-1 text-secondary">CT.Bora College, Shirur</p>
+            <p class="mb-0">Completed. Developed curiosity for computing and math problem‑solving.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section container">
+    <div class="text-center section-title mb-4">
+      <span class="badge rounded-pill bg-success-subtle text-success-emphasis">LET'S TALK</span>
+      <h2 class="mt-3 fw-bold">Get in touch</h2>
+      <p class="text-secondary max-w-2xl mx-auto">Have an idea, collab, or role in mind? Drop a message — I usually respond within a day.</p>
+    </div>
+
+    <div class="row g-4 align-items-stretch">
+      <div class="col-12 col-lg-6">
+        <div class="contact-wrap glass h-100 p-4 p-md-5">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <i class="fa-solid fa-headset fa-2xl text-info"></i>
+            <div>
+              <h5 class="mb-0">Contact Details</h5>
+              <small class="text-secondary">Available for freelance & internships</small>
+            </div>
+          </div>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2"><i class="fa-solid fa-envelope me-2"></i> durvankurdevikar@gmail.com</li>
+            <li class="mb-2"><i class="fa-solid fa-location-dot me-2"></i> Pune, India</li>
+            <li class="mb-2"><i class="fa-brands fa-linkedin me-2"></i> linkedin.com/in/durvankurdevikar</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="glass h-100 p-4 p-md-5">
+          <form id="contactForm" class="needs-validation" novalidate>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" required>
+                <div class="invalid-feedback">Please enter your name.</div>
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" required>
+                <div class="invalid-feedback">Please enter a valid email.</div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Phone (optional)</label>
+                <input type="text" class="form-control" name="phone">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" name="message" rows="4" required></textarea>
+                <div class="invalid-feedback">Please enter a message.</div>
+              </div>
+              <div class="col-12 d-flex gap-2">
+                <button class="btn btn-gradient px-4" type="submit"><i class="fa-solid fa-paper-plane me-2"></i>Send</button>
+                <button class="btn btn-outline-light" type="reset">Reset</button>
+              </div>
+            </div>
+          </form>
+          <div id="formAlert" class="alert alert-dismissible fade mt-3 d-none" role="alert"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="container py-5">
+    <div class="glass p-4 p-md-5 text-center">
+      <div class="mb-3 d-flex justify-content-center gap-2">
+        <a href="#hero" class="btn btn-sm btn-outline-light"><i class="fa-solid fa-house"></i></a>
+        <a href="#skills" class="btn btn-sm btn-outline-light"><i class="fa-solid fa-bolt"></i></a>
+        <a href="#projects" class="btn btn-sm btn-outline-light"><i class="fa-solid fa-rocket"></i></a>
+        <a href="#contact" class="btn btn-sm btn-outline-light"><i class="fa-solid fa-envelope"></i></a>
+      </div>
+      <p class="mb-0">Designed with <i class="fa-solid fa-heart text-danger"></i> by <a class="link-info text-decoration-none" href="https://www.linkedin.com/in/durvankurdevikar" target="_blank" rel="noopener noreferrer">Durvankur Devikar</a></p>
+    </div>
+  </footer>
+
+  <!-- Scroll To Top Button -->
+  <button id="toTop" class="btn btn-gradient btn-lg rounded-circle" aria-label="Scroll to top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.11/typed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <script>
+    // THEME TOGGLE
+    const themeBtn = document.getElementById('themeToggle');
+    const rootHtml = document.documentElement;
+    themeBtn.addEventListener('click', () => {
+      const current = rootHtml.getAttribute('data-bs-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      rootHtml.setAttribute('data-bs-theme', next);
+      themeBtn.innerHTML = next === 'dark' ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
+    });
+
+    // NAV active link on scroll
+    const sections = document.querySelectorAll('header, section');
+    const navLinks = document.querySelectorAll('.navbar .nav-link');
+    const makeActive = () => {
+      let index = sections.length;
+      while(--index && window.scrollY + 120 < sections[index].offsetTop){}
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = sections[index].getAttribute('id');
+      const active = document.querySelector(`.navbar .nav-link[href="#${id}"]`);
+      if(active) active.classList.add('active');
+    }
+    makeActive();
+    window.addEventListener('scroll', makeActive);
+
+    // Scroll to top
+    const toTop = document.getElementById('toTop');
+    window.addEventListener('scroll', () => { toTop.style.display = window.scrollY > 400 ? 'inline-flex' : 'none'; });
+    toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+    // Typed.js init
+    new Typed('#typed', { strings: ['Android Development', 'Cloud & DevOps', 'Full‑Stack Engineering', 'UI/UX & Animations'], typeSpeed: 45, backSpeed: 25, backDelay: 1200, loop: true });
+
+    // Particles.js init
+    particlesJS('particles-js', { particles: { number: { value: 70, density: { enable: true, value_area: 800 } }, color: { value: ['#6ee7ff', '#a78bfa', '#ffffff'] }, shape: { type: 'circle' }, opacity: { value: 0.35 }, size: { value: 3, random: true }, line_linked: { enable: true, distance: 140, color: '#8ab4f8', opacity: 0.25, width: 1 }, move: { enable: true, speed: 1.2 } }, interactivity: { detect_on: 'canvas', events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } }, modes: { grab: { distance: 200, line_linked: { opacity: 0.35 } }, push: { particles_nb: 3 } } }, retina_detect: true });
+
+    // Tilt init
+    VanillaTilt.init(document.querySelectorAll('[data-tilt]'), { max: 8, speed: 400, glare: true, 'max-glare': .2 });
+
+    // ScrollReveal
+    const sr = ScrollReveal({ distance: '40px', duration: 700, easing: 'ease-out', interval: 80, origin: 'bottom' });
+    sr.reveal('.hero-card'); sr.reveal('#skills .col'); sr.reveal('#projects .project'); sr.reveal('#education .t-card'); sr.reveal('#contact .glass');
+
+    // Project filtering
+    const chips = document.querySelectorAll('.filter-chip');
+    const cards = document.querySelectorAll('#projects .project');
+    chips.forEach(chip => chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const f = chip.dataset.filter;
+      cards.forEach(card => { const show = f === 'all' || card.dataset.category === f; card.style.display = show ? '' : 'none'; });
+    }));
+
+    // Contact form: Bootstrap validation + EmailJS (replace IDs)
+    (function(){ const form = document.getElementById('contactForm'); const alertBox = document.getElementById('formAlert'); form.addEventListener('submit', function(e){ e.preventDefault(); if(!form.checkValidity()){ e.stopPropagation(); form.classList.add('was-validated'); return; } try{ emailjs.init('YOUR_EMAILJS_PUBLIC_KEY'); const data = { from_name: form.name.value, reply_to: form.email.value, phone: form.phone.value, message: form.message.value }; emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', data).then(() => showAlert('Thanks! Your message has been sent. I\'ll reply soon.', 'success')).catch(() => showAlert('Oops, something went wrong. Please try again later.', 'danger')); }catch(err){ showAlert('Email service not configured yet. Add your EmailJS keys in the code.', 'warning'); } }); function showAlert(msg, type){ alertBox.className = `alert alert-${type} alert-dismissible fade show`; alertBox.textContent = msg; const btn = document.createElement('button'); btn.type = 'button'; btn.className='btn-close'; btn.setAttribute('data-bs-dismiss','alert'); btn.ariaLabel='Close'; alertBox.appendChild(btn); alertBox.classList.remove('d-none'); setTimeout(()=>{ const alert = bootstrap.Alert.getOrCreateInstance(alertBox); alert.close(); }, 5000); } })();
+  </script>
+</body>
+</html>
